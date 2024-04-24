@@ -50,7 +50,7 @@ for(c in 1:length(target2Complex)){
         targetdonor[t+1]<-targetdonor[t]+ass[i]*target[t]*donor[t]-diss[j]*targetdonor[t]
       }
       #Evaluation: is the protein complex levels similar (0.01 deviation allowed) and is it not changing?
-      if((abs(targetdonor[t+1]-target2Complex[c])<0.01)&((targetdonor[t+1]-targetdonor[t])==0)){ 
+      if((abs(targetdonor[t+1]-target2Complex[c])<0.05)&((targetdonor[t+1]-targetdonor[t])==0)){ 
         cont2[c]<-cont2[c]+1
         asssuccess[c,cont2[c]]<-as.double(ass[i])
         disssuccess[c,cont2[c]]<-as.double(diss[j])

@@ -75,12 +75,6 @@ for(tests in 1:100){
     }
   }
   
-  #Check conservation of matter
-  cellid<-2
-  BRAVOvalues[cellid]-sum(BRAVO[t,cellid],BRAVOPLT3[t,cellid],BRAVOWOX5[t,cellid],WOX5PLT3BRAVO[t,cellid])
-  PLT3values[cellid]-sum(PLT3[t,cellid],BRAVOPLT3[t,cellid],WOX5PLT3[t,cellid],WOX5PLT3BRAVO[t,cellid])
-  WOX5values[cellid]-sum(WOX5[t,cellid],BRAVOWOX5[t,cellid],WOX5PLT3[t,cellid],WOX5PLT3BRAVO[t,cellid])
-  
   ########## Radar plot protein complexes
   data<-as.data.frame(matrix(c(WOX5PLT3[t,],BRAVOPLT3[t,],BRAVOWOX5[t,],WOX5PLT3BRAVO[t,]),ncol=4))
   rownames(data)<-c("Stele initials","QC","CSC","CC")
