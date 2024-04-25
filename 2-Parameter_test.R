@@ -1,14 +1,13 @@
 library(viridis)
 library(fmsb)
 library(ggplot2)
-zoomplot<-0.2
 
 rates<-read.table("BindingRates.csv",sep=",",header=F)
 ratesOptions<-readRDS("bindingRates.rds")
 
-pdf(paste("2-ParameterTestWt.pdf"))
-par(mfrow=c(2,2))
-for(tests in 1:100){
+replicates<-100
+cellsComplexes=matrix(ncol=5,nrow=4*replicates)
+for(tests in 1:replicates){
   
   ass<-0
   diss<-0
@@ -75,13 +74,59 @@ for(tests in 1:100){
     }
   }
   
-  ########## Radar plot protein complexes
-  data<-as.data.frame(matrix(c(WOX5PLT3[t,],BRAVOPLT3[t,],BRAVOWOX5[t,],WOX5PLT3BRAVO[t,]),ncol=4))
-  rownames(data)<-c("Stele initials","QC","CSC","CC")
-  colnames(data)<-c("WOX5-PLT3","BRAVO-PLT3","BRAVO-WOX5","WOX5-PLT3-BRAVO")
-  data <- rbind(rep(zoomplot,4) , rep(0,4) , data)
-  radarchart(data,pfcol=adjustcolor(viridis(4),alpha.f = 0.2),pcol=viridis(4),caxislabels = seq(0, zoomplot, length.out = 5),calcex = 1,vlcex = 0.8)
+  ########## Saving end state
+  cellsComplexes[tests,1]<-WOX5PLT3[t,4]
+  cellsComplexes[tests,3]<-BRAVOPLT3[t,4]
+  cellsComplexes[tests,4]<-BRAVOWOX5[t,4]
+  cellsComplexes[tests,5]<-WOX5PLT3BRAVO[t,4]
+  cellsComplexes[tests,2]<-"CC"
+  cellsComplexes[tests,2]<-"CC"
+  cellsComplexes[tests,2]<-"CC"
+  cellsComplexes[tests,2]<-"CC"
+  
+  cellsComplexes[tests+replicates,1]<-WOX5PLT3[t,3]
+  cellsComplexes[tests+replicates,3]<-BRAVOPLT3[t,3]
+  cellsComplexes[tests+replicates,4]<-BRAVOWOX5[t,3]
+  cellsComplexes[tests+replicates,5]<-WOX5PLT3BRAVO[t,3]
+  cellsComplexes[tests+replicates,2]<-"CSC"
+  cellsComplexes[tests+replicates,2]<-"CSC"
+  cellsComplexes[tests+replicates,2]<-"CSC"
+  cellsComplexes[tests+replicates,2]<-"CSC"
+  
+  cellsComplexes[tests+2*replicates,1]<-WOX5PLT3[t,2]
+  cellsComplexes[tests+2*replicates,3]<-BRAVOPLT3[t,2]
+  cellsComplexes[tests+2*replicates,4]<-BRAVOWOX5[t,2]
+  cellsComplexes[tests+2*replicates,5]<-WOX5PLT3BRAVO[t,2]
+  cellsComplexes[tests+2*replicates,2]<-"QC"
+  cellsComplexes[tests+2*replicates,2]<-"QC"
+  cellsComplexes[tests+2*replicates,2]<-"QC"
+  cellsComplexes[tests+2*replicates,2]<-"QC"
+  
+  cellsComplexes[tests+3*replicates,1]<-WOX5PLT3[t,1]
+  cellsComplexes[tests+3*replicates,3]<-BRAVOPLT3[t,1]
+  cellsComplexes[tests+3*replicates,4]<-BRAVOWOX5[t,1]
+  cellsComplexes[tests+3*replicates,5]<-WOX5PLT3BRAVO[t,1]
+  cellsComplexes[tests+3*replicates,2]<-"SI"
+  cellsComplexes[tests+3*replicates,2]<-"SI"
+  cellsComplexes[tests+3*replicates,2]<-"SI"
+  cellsComplexes[tests+3*replicates,2]<-"SI"
+
 }
+write.table(cellsComplexes,file="3-test.csv",sep=",",col.names = c("WOX5PLT3","CellType","BRAVOPLT3","BRAVOWOX5","WOX5PLT3BRAVO"),row.names = FALSE)
+a<-read.csv(paste("3-test.csv"))
+ggplot(a, aes(x=CellType, y=WOX5PLT3)) + geom_violin(trim=FALSE)+
+  geom_jitter(shape=16, position=position_jitter(0.2))+ stat_summary(fun.y=median, geom="point", size=2, color="red")
+ggsave(paste("3-Test-parameters-WOX5-PLT3.pdf"),height = 3,width = 7)
 
+ggplot(a, aes(x=CellType, y=BRAVOPLT3)) + geom_violin(trim=FALSE)+
+  geom_jitter(shape=16, position=position_jitter(0.2))+ stat_summary(fun.y=median, geom="point", size=2, color="red")
+ggsave(paste("3-Test-parameters-BRAVO-PLT3.pdf"),height = 3,width = 7)# dev.off()
 
-dev.off()
+ggplot(a, aes(x=CellType, y=BRAVOWOX5)) + geom_violin(trim=FALSE)+
+  geom_jitter(shape=16, position=position_jitter(0.2))+ stat_summary(fun.y=median, geom="point", size=2, color="red")
+ggsave(paste("3-Test-parameters-BRAVO-WOX5.pdf"),height = 3,width = 7)# dev.off()
+
+ggplot(a, aes(x=CellType, y=WOX5PLT3BRAVO)) + geom_violin(trim=FALSE)+
+  geom_jitter(shape=16, position=position_jitter(0.2))+ stat_summary(fun.y=median, geom="point", size=2, color="red")
+ggsave(paste("3-Test-parameters-WOX5-PLT3-BRAVO.pdf"),height = 3,width = 7)# dev.off()
+

@@ -486,4 +486,4 @@ ggplot(data, aes(X, Y, fill= Z)) +
   scale_fill_gradientn(colours = colorspace::diverge_hcl(7))+
   theme(axis.title.x=element_blank(), axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))
 
-ggsave(paste("heatmap-controls.pdf"), width = 1.5*3, height = 2.3*3)
+ggsave(paste("4-heatmap-controls.pdf"), width = 1.5*3, height = 2.3*3)
