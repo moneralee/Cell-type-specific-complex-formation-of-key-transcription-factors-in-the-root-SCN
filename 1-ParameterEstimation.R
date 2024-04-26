@@ -13,9 +13,9 @@ zoomplot<-0.2
 #Protein complexes, and relative binding rates
 names2complexes<-c("WOX5-PLT3","BRAVO-PLT3","BRAVO-WOX5","BRAVO-PLT3_prion","WOX5-PLT3+BRAVO","BRAVO-PLT3+WOX5")
 target2Complex<-c(
-  1 #WOX5PLT3
-  ,0.677 #BRAVOPLT3
-  ,0.639 #BRAVOWOX5
+  0.96 #WOX5PLT3
+  ,0.65 #BRAVOPLT3
+  ,0.61 #BRAVOWOX5
   ,0.38292011 #BRAVO-PLTprion
   ,1  #WOX5PLT3,BRAVO 
   ,0.82 #BRAVOPLT3,WOX5

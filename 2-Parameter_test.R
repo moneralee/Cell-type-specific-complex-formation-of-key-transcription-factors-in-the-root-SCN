@@ -116,17 +116,17 @@ write.table(cellsComplexes,file="3-test.csv",sep=",",col.names = c("WOX5PLT3","C
 a<-read.csv(paste("3-test.csv"))
 ggplot(a, aes(x=CellType, y=WOX5PLT3)) + geom_violin(trim=FALSE)+
   geom_jitter(shape=16, position=position_jitter(0.2))+ stat_summary(fun.y=median, geom="point", size=2, color="red")
-ggsave(paste("3-Test-parameters-WOX5-PLT3.pdf"),height = 3,width = 7)
+ggsave(paste("2-Test-parameters-WOX5-PLT3.pdf"),height = 3,width = 7)
 
 ggplot(a, aes(x=CellType, y=BRAVOPLT3)) + geom_violin(trim=FALSE)+
   geom_jitter(shape=16, position=position_jitter(0.2))+ stat_summary(fun.y=median, geom="point", size=2, color="red")
-ggsave(paste("3-Test-parameters-BRAVO-PLT3.pdf"),height = 3,width = 7)# dev.off()
+ggsave(paste("2-Test-parameters-BRAVO-PLT3.pdf"),height = 3,width = 7)# dev.off()
 
 ggplot(a, aes(x=CellType, y=BRAVOWOX5)) + geom_violin(trim=FALSE)+
   geom_jitter(shape=16, position=position_jitter(0.2))+ stat_summary(fun.y=median, geom="point", size=2, color="red")
-ggsave(paste("3-Test-parameters-BRAVO-WOX5.pdf"),height = 3,width = 7)# dev.off()
+ggsave(paste("2-Test-parameters-BRAVO-WOX5.pdf"),height = 3,width = 7)# dev.off()
 
 ggplot(a, aes(x=CellType, y=WOX5PLT3BRAVO)) + geom_violin(trim=FALSE)+
   geom_jitter(shape=16, position=position_jitter(0.2))+ stat_summary(fun.y=median, geom="point", size=2, color="red")
-ggsave(paste("3-Test-parameters-WOX5-PLT3-BRAVO.pdf"),height = 3,width = 7)# dev.off()
+ggsave(paste("2-Test-parameters-WOX5-PLT3-BRAVO.pdf"),height = 3,width = 7)# dev.off()
 
