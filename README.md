@@ -1,3 +1,5 @@
+This is the code of the model reported in Stem cell homeostasis in the root of Arabidopsis involves cell type specific complex formation of key transcription factors, Vivien I. Strotmann, Monica L. GarcÃ­a-GÃ³mez, and Yvonne Stahl. https://www.biorxiv.org/content/10.1101/2024.04.26.591257v1.abstract
+
 To simulate the formation of protein complexes in the root stem cell niche, first run 1-ParameterEstimation.R, and then run either 2-Parameter_test.R, 3-RSCN_simulations.R, or 4-RSCN_simulations_controls.R. Below is a description of what each one does: 
 
 1-ParameterEstimation.R: Estimation of assoaciation and dissociation parameters that explain relative binding rates determined experimentally
