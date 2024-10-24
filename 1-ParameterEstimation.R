@@ -20,14 +20,12 @@ target2Complex<-c(
   ,1  #WOX5PLT3,BRAVO 
   ,0.82 #BRAVOPLT3,WOX5
 )
-# Here we only have data of how BRAVO-PLT+WOX5 and WOX5-PLT3+BRAVO leads to the formation of WOX5-BRAVO-PLT3 trimeric complex 
-# the BRAVO-PLT3 + WOX5 was not measured
 
 target2Complex<-target2Complex*0.8 #Relative binding rates 
 
 #Range of association and dissociation rates considered
-ass<-seq(0.01,0.5,by=0.001)
-diss<-seq(0.01,0.5,by=0.001)
+ass<-seq(0.01,0.5,by=0.0005/2)
+diss<-seq(0.01,0.5,by=0.0005/2)
 
 #Matrices to store ass and diss parameters that can produce reported binding rates
 asssuccess=matrix(ncol=length(ass)*length(diss),nrow=length(target2Complex),"NA")
@@ -50,7 +48,7 @@ for(c in 1:length(target2Complex)){
         targetdonor[t+1]<-targetdonor[t]+ass[i]*target[t]*donor[t]-diss[j]*targetdonor[t]
       }
       #Evaluation: is the protein complex levels similar (0.01 deviation allowed) and is it not changing?
-      if((abs(targetdonor[t+1]-target2Complex[c])<0.05)&((targetdonor[t+1]-targetdonor[t])==0)){ 
+      if((abs(targetdonor[t+1]-target2Complex[c])<0.00001)&((targetdonor[t+1]-targetdonor[t])==0)){ 
         cont2[c]<-cont2[c]+1
         asssuccess[c,cont2[c]]<-as.double(ass[i])
         disssuccess[c,cont2[c]]<-as.double(diss[j])
