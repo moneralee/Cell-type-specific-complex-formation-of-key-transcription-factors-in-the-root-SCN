@@ -1,7 +1,7 @@
 library(viridis)
 library(fmsb)
 library(ggplot2)
-zoomplot<-0.2
+zoomplot<-0.3
 rates<-read.table("BindingRates.csv",sep=",",header=F)
 ratesOptions<-readRDS("bindingRates.rds")
 
@@ -11,7 +11,7 @@ helper<-0
 
 for(i in 1:length(ratesOptions)){
   helper[i]<-1+3*(i-1) # Because in table, there is a space in between ass/diss per complex
-  sampleassdiss<-sample(1:ratesOptions[i],1) # Random selection of random binding rates to be used in the simulation
+  sampleassdiss<-sample(1:ratesOptions[i],1) # Random selection of random rates to be used in the simulation
   ass[i]<-as.double(rates[helper[i],sampleassdiss+1]) 
   diss[i]<-as.double(rates[helper[i]+1,sampleassdiss+1]) 
 }
@@ -46,8 +46,8 @@ for(prion in 0:1){
     dbp<-diss[2]
   }else{
     # WOX5+PLT3dPrD
-    awp<-0
-    dwp<-0
+    awp<-ass[7]
+    dwp<-diss[7]
     # BRAVO+PLT3dPrD
     abp<-ass[4]
     dbp<-diss[4]
@@ -102,7 +102,7 @@ for(prion in 0:1){
   par(mfrow=c(2,2))
   cellcolors<-viridis(4)
   for(i in 1:4){
-    barplot(c(WOX5[time+1,i],PLT3[time+1,i],BRAVO[time+1,i]),col=cellcolors[i],names.arg = c("WOX5","PLT3","BRAVO"),ylim=c(0,0.3))
+    barplot(c(WOX5[time+1,i],PLT3[time+1,i],BRAVO[time+1,i]),col=cellcolors[i],names.arg = c("WOX5","PLT3","BRAVO"),ylim=c(0,0.5))
   }
   dev.off()
   
@@ -134,7 +134,7 @@ for(prion in 0:1){
                      WOX5PLT3BRAVO[t,4],
                      WOX5[t,4],
                      PLT3[t,4],
-                     BRAVO[t,4]) #max value in other plots for comparison
+                     BRAVO[t,4]) 
   
   x<-c("WOX5-PLT3","BRAVO-PLT3","BRAVO-WOX5","WOX5-PLT3-BRAVO","WOX5","PLT3","BRAVO")
   y<-c("CC: Wt","CSC: Wt","QC: Wt","SI: Wt")

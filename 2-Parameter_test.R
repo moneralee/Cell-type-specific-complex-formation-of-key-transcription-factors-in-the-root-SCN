@@ -6,7 +6,7 @@ rates<-read.table("BindingRates.csv",sep=",",header=F)
 ratesOptions<-readRDS("bindingRates.rds")
 
 replicates<-100
-cellsComplexes=matrix(ncol=5,nrow=4*replicates)
+cellsComplexes=matrix(ncol=4+1+1,nrow=4*replicates) # 4 protein complexes, 4 cells+label+1colorReplicate
 for(tests in 1:replicates){
   
   ass<-0
@@ -26,10 +26,10 @@ for(tests in 1:replicates){
   heatmapcont<-0
   
   ###### Root stem cell niche protein levels (normalized)
-  PLT3values<-c(0.711044,0.68113,0.790596,0.294725)
-  WOX5values<-c(0.524895,0.764438,0.327142,0.053709)
-  BRAVOvalues<-c(1.001838,0.486001,0.220858,0.033101)
-  
+PLT3values<-c(0.711044,0.68113,0.790596,0.294725)
+WOX5values<-c(0.524895,0.764438,0.327142,0.053709)
+BRAVOvalues<-c(1.001838,0.486001,0.220858,0.033101)
+
   # BRAVO+WOX5
   abw<-ass[3]
   dbw<-diss[3]
@@ -80,53 +80,45 @@ for(tests in 1:replicates){
   cellsComplexes[tests,4]<-BRAVOWOX5[t,4]
   cellsComplexes[tests,5]<-WOX5PLT3BRAVO[t,4]
   cellsComplexes[tests,2]<-"CC"
-  cellsComplexes[tests,2]<-"CC"
-  cellsComplexes[tests,2]<-"CC"
-  cellsComplexes[tests,2]<-"CC"
-  
+  cellsComplexes[tests,6]<-tests
+
   cellsComplexes[tests+replicates,1]<-WOX5PLT3[t,3]
   cellsComplexes[tests+replicates,3]<-BRAVOPLT3[t,3]
   cellsComplexes[tests+replicates,4]<-BRAVOWOX5[t,3]
   cellsComplexes[tests+replicates,5]<-WOX5PLT3BRAVO[t,3]
   cellsComplexes[tests+replicates,2]<-"CSC"
-  cellsComplexes[tests+replicates,2]<-"CSC"
-  cellsComplexes[tests+replicates,2]<-"CSC"
-  cellsComplexes[tests+replicates,2]<-"CSC"
-  
+  cellsComplexes[tests+replicates,6]<-tests
+
   cellsComplexes[tests+2*replicates,1]<-WOX5PLT3[t,2]
   cellsComplexes[tests+2*replicates,3]<-BRAVOPLT3[t,2]
   cellsComplexes[tests+2*replicates,4]<-BRAVOWOX5[t,2]
   cellsComplexes[tests+2*replicates,5]<-WOX5PLT3BRAVO[t,2]
   cellsComplexes[tests+2*replicates,2]<-"QC"
-  cellsComplexes[tests+2*replicates,2]<-"QC"
-  cellsComplexes[tests+2*replicates,2]<-"QC"
-  cellsComplexes[tests+2*replicates,2]<-"QC"
-  
+  cellsComplexes[tests+2*replicates,6]<-tests
+
   cellsComplexes[tests+3*replicates,1]<-WOX5PLT3[t,1]
   cellsComplexes[tests+3*replicates,3]<-BRAVOPLT3[t,1]
   cellsComplexes[tests+3*replicates,4]<-BRAVOWOX5[t,1]
   cellsComplexes[tests+3*replicates,5]<-WOX5PLT3BRAVO[t,1]
   cellsComplexes[tests+3*replicates,2]<-"SI"
-  cellsComplexes[tests+3*replicates,2]<-"SI"
-  cellsComplexes[tests+3*replicates,2]<-"SI"
-  cellsComplexes[tests+3*replicates,2]<-"SI"
-  
+  cellsComplexes[tests+3*replicates,6]<-tests
+
 }
-write.table(cellsComplexes,file="3-test.csv",sep=",",col.names = c("WOX5PLT3","CellType","BRAVOPLT3","BRAVOWOX5","WOX5PLT3BRAVO"),row.names = FALSE)
+write.table(cellsComplexes,file="3-test.csv",sep=",",col.names = c("WOX5PLT3","CellType","BRAVOPLT3","BRAVOWOX5","WOX5PLT3BRAVO","replicate"),row.names = FALSE)
 a<-read.csv(paste("3-test.csv"))
 ggplot(a, aes(x=CellType, y=WOX5PLT3)) + geom_violin(trim=FALSE)+
-  geom_jitter(shape=16, position=position_jitter(0.2))+ stat_summary(fun.y=median, geom="point", size=2, color="red")
+  geom_jitter(shape=16, position=position_jitter(0.2),aes(colour=replicate))+ stat_summary(fun.y=median, geom="point", size=2, color="red")
 ggsave(paste("2-Test-parameters-WOX5-PLT3.pdf"),height = 3,width = 7)
 
 ggplot(a, aes(x=CellType, y=BRAVOPLT3)) + geom_violin(trim=FALSE)+
-  geom_jitter(shape=16, position=position_jitter(0.2))+ stat_summary(fun.y=median, geom="point", size=2, color="red")
+  geom_jitter(shape=16, position=position_jitter(0.2),aes(colour=replicate))+ stat_summary(fun.y=median, geom="point", size=2, color="red")
 ggsave(paste("2-Test-parameters-BRAVO-PLT3.pdf"),height = 3,width = 7)# dev.off()
 
 ggplot(a, aes(x=CellType, y=BRAVOWOX5)) + geom_violin(trim=FALSE)+
-  geom_jitter(shape=16, position=position_jitter(0.2))+ stat_summary(fun.y=median, geom="point", size=2, color="red")
+  geom_jitter(shape=16, position=position_jitter(0.2),aes(colour=replicate))+ stat_summary(fun.y=median, geom="point", size=2, color="red")
 ggsave(paste("2-Test-parameters-BRAVO-WOX5.pdf"),height = 3,width = 7)# dev.off()
 
 ggplot(a, aes(x=CellType, y=WOX5PLT3BRAVO)) + geom_violin(trim=FALSE)+
-  geom_jitter(shape=16, position=position_jitter(0.2))+ stat_summary(fun.y=median, geom="point", size=2, color="red")
+  geom_jitter(shape=16, position=position_jitter(0.2),aes(colour=replicate))+ stat_summary(fun.y=median, geom="point", size=2, color="red")
 ggsave(paste("2-Test-parameters-WOX5-PLT3-BRAVO.pdf"),height = 3,width = 7)# dev.off()
 
